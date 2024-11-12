@@ -10,6 +10,12 @@ import SnapKit
 
 class HuntGuideDetailView: UIView {
 
+    // Define padding constants
+    private let verticalPadding: CGFloat = 16
+    private let horizontalPadding: CGFloat = 16
+    private let imageVerticalOffset: CGFloat = 32
+    private let imageHorizontalInset: CGFloat = 32
+    
     // UI Elements
     private let subjectLabel: UILabel = {
         let label = UILabel()
@@ -65,27 +71,27 @@ class HuntGuideDetailView: UIView {
     // Setup Constraints
     private func setupConstraints() {
         subjectLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(16)
-            make.leading.equalToSuperview().offset(16)
+            make.top.equalTo(safeAreaLayoutGuide).offset(verticalPadding)
+            make.leading.equalToSuperview().offset(horizontalPadding)
         }
 
         topicLabel.snp.makeConstraints { make in
-            make.top.equalTo(subjectLabel.snp.bottom).offset(16)
+            make.top.equalTo(subjectLabel.snp.bottom).offset(verticalPadding)
             make.leading.equalTo(subjectLabel)
-            make.width.lessThanOrEqualToSuperview().offset(-32)
+            make.width.lessThanOrEqualToSuperview().offset(-horizontalPadding * 2)
         }
 
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(topicLabel.snp.bottom).offset(16)
+            make.top.equalTo(topicLabel.snp.bottom).offset(verticalPadding)
             make.leading.equalTo(topicLabel)
-            make.trailing.equalToSuperview().offset(-16)
+            make.trailing.equalToSuperview().offset(-horizontalPadding)
         }
 
         weaponImageView.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(imageVerticalOffset)
             make.centerX.equalToSuperview()
-            make.width.lessThanOrEqualToSuperview().offset(-32)
-            make.bottom.lessThanOrEqualTo(safeAreaLayoutGuide).offset(-16)
+            make.width.lessThanOrEqualToSuperview().offset(-imageHorizontalInset)
+            make.bottom.lessThanOrEqualTo(safeAreaLayoutGuide).offset(-verticalPadding)
         }
     }
 
