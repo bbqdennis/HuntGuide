@@ -8,6 +8,12 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    // Init
+    
+    // Setup
+    
+    // Setup Layer
 
     override func viewDidLoad() {
         super.viewDidLoad()
