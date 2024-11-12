@@ -13,6 +13,7 @@ class ViewController: UIViewController {
         NSLog("pushToHuntGuideViewController")
         let huntGuideVC = HuntGuideViewController()
         let aNavigationController = UINavigationController(rootViewController: huntGuideVC)
+        aNavigationController.setNavigationBarHidden(true, animated: false)
         
         let window = UIApplication.shared.windows.first!
         window.rootViewController = aNavigationController
