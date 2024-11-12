@@ -10,25 +10,42 @@ import SnapKit
 
 class HuntGuideView: UIView {
     
+    // Layout Constants
+    private let containerViewBottomOffset: CGFloat = -100
+    private let containerViewHeight: CGFloat = 56
+    private let containerViewWidth: CGFloat = 248
+    private let containerViewCornerRadius: CGFloat = 28
+    private let containerViewBorderWidth: CGFloat = 2
+    
+    private let infoIconLeadingPadding: CGFloat = 16
+    private let infoIconSize: CGFloat = 24
+    
+    private let titleLabelLeadingOffset: CGFloat = 8
+    private let titleLabelTopOffset: CGFloat = 10
+    
+    private let subtitleLabelLeadingOffset: CGFloat = 8
+    private let subtitleLabelTopOffset: CGFloat = 2
+
+    // Setup View
     private let containerView: UIView = {
         let view = UIView()
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.cyan.cgColor
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = 28
         return view
     }()
     
     private let infoIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "info.circle")
-        imageView.tintColor = .cyan
+        imageView.tintColor = .white
         return imageView
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "HUNT GUIDE"
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 14)  // Set to bold font
         label.textColor = .white
         return label
     }()
@@ -36,8 +53,8 @@ class HuntGuideView: UIView {
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Tips and tricks to get you started"
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.white.withAlphaComponent(0.7)
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.textColor = UIColor.white
         return label
     }()
     
@@ -49,6 +66,7 @@ class HuntGuideView: UIView {
     
     private var buttonCallback: (() -> Void)?
     
+    // Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -60,36 +78,42 @@ class HuntGuideView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Setup Init
     private func setupView() {
         addSubview(containerView)
         containerView.addSubview(infoIcon)
         containerView.addSubview(titleLabel)
         containerView.addSubview(subtitleLabel)
         containerView.addSubview(buttonAction)
+        
+        // Update view properties using constants
+        containerView.layer.cornerRadius = containerViewCornerRadius
+        containerView.layer.borderWidth = containerViewBorderWidth
     }
     
+    // Setup Constraints
     private func setupConstraints() {
         containerView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-40)
-            make.height.equalTo(80)
-            make.width.equalTo(320)
+            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(containerViewBottomOffset)
+            make.height.equalTo(containerViewHeight)
+            make.width.equalTo(containerViewWidth)
         }
         
         infoIcon.snp.makeConstraints { make in
-            make.leading.equalTo(containerView).offset(16)
+            make.leading.equalTo(containerView).offset(infoIconLeadingPadding)
             make.centerY.equalTo(containerView)
-            make.width.height.equalTo(24)
+            make.width.height.equalTo(infoIconSize)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(infoIcon.snp.trailing).offset(16)
-            make.top.equalTo(containerView).offset(16)
+            make.leading.equalTo(infoIcon.snp.trailing).offset(titleLabelLeadingOffset)
+            make.top.equalTo(containerView).offset(titleLabelTopOffset)
         }
         
         subtitleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(infoIcon.snp.trailing).offset(16)
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.leading.equalTo(infoIcon.snp.trailing).offset(subtitleLabelLeadingOffset)
+            make.top.equalTo(titleLabel.snp.bottom).offset(subtitleLabelTopOffset)
         }
         
         buttonAction.snp.makeConstraints { make in
@@ -97,6 +121,7 @@ class HuntGuideView: UIView {
         }
     }
     
+    // Function Call
     func configureButtonAction(callback: @escaping () -> Void) {
         buttonCallback = callback
     }
