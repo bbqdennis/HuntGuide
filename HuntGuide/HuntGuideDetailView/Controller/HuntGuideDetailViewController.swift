@@ -10,6 +10,8 @@ import UIKit
 class HuntGuideDetailViewController: UIViewController {
 
     private let huntGuideDetailView = HuntGuideDetailView()
+    private var models: [HuntGuideDetailModel] = []
+    private var currentIndex = 0
 
     override func loadView() {
         self.view = huntGuideDetailView
@@ -17,16 +19,30 @@ class HuntGuideDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Sample data for demonstration
-        let huntGuideModel = HuntGuideDetailModel(
-            stepNumber: "01",
-            title: "MASTER YOUR LOADOUT",
-            subtitle: "CHOOSE THE PERFECT WEAPON COMBO",
-            description: "In your inventory you will be able to select your loadout by picking the two weapons you’ll rely on during the hunt. Each gun has unique strengths, so choose a combo that best matches your play style for maximum impact.",
-            imageName: "weapon_image" // Add your image to the assets named "weapon_image"
-        )
         
-        huntGuideDetailView.configure(with: huntGuideModel)
+        if let loadedModels = HuntGuideDetailModel.loadFromBundle() {
+            models = loadedModels
+            loadCurrentModel()
+        } else {
+            print("Failed to load models from JSON.")
+        }
+        
+        // Add tap gesture recognizer
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        huntGuideDetailView.addGestureRecognizer(tapGesture)
+    }
+
+    private func loadCurrentModel() {
+        if currentIndex < models.count {
+            let model = models[currentIndex]
+            huntGuideDetailView.configure(with: model)
+        }
+    }
+
+    // Action
+    @objc private func handleTap() {
+        // Increment the index to load the next model
+        currentIndex = (currentIndex + 1) % models.count
+        loadCurrentModel()
     }
 }

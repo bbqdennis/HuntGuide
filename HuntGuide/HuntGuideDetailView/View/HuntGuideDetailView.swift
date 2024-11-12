@@ -11,24 +11,19 @@ import SnapKit
 class HuntGuideDetailView: UIView {
 
     // UI Elements
-    private let stepLabel: UILabel = {
+    private let subjectLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         label.textColor = .cyan
         return label
     }()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textColor = .cyan
-        return label
-    }()
-
-    private let subtitleLabel: UILabel = {
+    private let topicLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textColor = .white
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
@@ -61,40 +56,34 @@ class HuntGuideDetailView: UIView {
 
     // Setup View
     private func setupView() {
-        addSubview(stepLabel)
-        addSubview(titleLabel)
-        addSubview(subtitleLabel)
+        addSubview(subjectLabel)
+        addSubview(topicLabel)
         addSubview(descriptionLabel)
         addSubview(weaponImageView)
     }
 
     // Setup Constraints
     private func setupConstraints() {
-        stepLabel.snp.makeConstraints { make in
+        subjectLabel.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(16)
             make.leading.equalToSuperview().offset(16)
         }
 
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(stepLabel.snp.bottom).offset(8)
-            make.leading.equalTo(stepLabel)
-        }
-
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.leading.equalTo(titleLabel)
+        topicLabel.snp.makeConstraints { make in
+            make.top.equalTo(subjectLabel.snp.bottom).offset(16)
+            make.leading.equalTo(subjectLabel)
+            make.width.lessThanOrEqualToSuperview().offset(-32)
         }
 
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(subtitleLabel.snp.bottom).offset(16)
-            make.leading.equalTo(subtitleLabel)
+            make.top.equalTo(topicLabel.snp.bottom).offset(16)
+            make.leading.equalTo(topicLabel)
             make.trailing.equalToSuperview().offset(-16)
         }
 
         weaponImageView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(32)
             make.centerX.equalToSuperview()
-            make.height.equalTo(200)
             make.width.lessThanOrEqualToSuperview().offset(-32)
             make.bottom.lessThanOrEqualTo(safeAreaLayoutGuide).offset(-16)
         }
@@ -102,10 +91,9 @@ class HuntGuideDetailView: UIView {
 
     // Configure View
     func configure(with model: HuntGuideDetailModel) {
-        stepLabel.text = model.stepNumber + "  " + model.title
-        titleLabel.text = model.title
-        subtitleLabel.text = model.subtitle
+        subjectLabel.text = model.subject
+        topicLabel.text = model.topic
         descriptionLabel.text = model.description
-        weaponImageView.image = UIImage(named: model.imageName)
+        weaponImageView.image = UIImage(named: model.image)
     }
 }
