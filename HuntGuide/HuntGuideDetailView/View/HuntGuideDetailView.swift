@@ -20,7 +20,7 @@ class HuntGuideDetailView: UIView {
     // Indicator
     private var steps: Int
     private var indicators: [UIView] = []
-    private var progressLayers: [CAShapeLayer] = []
+    private var progressLayer: CAShapeLayer? // Only one progress layer needed
     private var currentIndicatorIndex = 0
     private var animationDuration: TimeInterval = 10
 
@@ -75,13 +75,6 @@ class HuntGuideDetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        // Now frames and bounds are guaranteed to be set
-        NSLog("layoutSubviews")
-        addIndicatorProgressLayers()
-    }
 
     // Setup View
     private func setupView() {
@@ -93,7 +86,7 @@ class HuntGuideDetailView: UIView {
         addProgressIndicator()
     }
     
-    // Add progress indicator views with animated progress layers
+    // Add progress indicator views
     private func addProgressIndicator() {
         let indicatorContainer = UIStackView()
         indicatorContainer.axis = .horizontal
@@ -124,34 +117,32 @@ class HuntGuideDetailView: UIView {
             make.trailing.equalToSuperview().offset(-horizontalPadding)
             make.height.equalTo(4)
         }
-        
-        
     }
     
-    private func addIndicatorProgressLayers() {
-        for (index, indicator) in indicators.enumerated() {
-            // Add progress layer to each indicator
-            let progressLayer = CAShapeLayer()
-            progressLayer.strokeColor = UIColor.white.cgColor
-            progressLayer.lineWidth = 4 // Set the height of the progress line
-            progressLayer.lineCap = .round
-            progressLayer.fillColor = UIColor.clear.cgColor
-            progressLayer.strokeEnd = 0 // Start the stroke at zero
+    // Add a progress layer to the current indicator only
+    private func addIndicatorProgressLayer(for index: Int) {
+        // Remove any existing progress layer
+        progressLayer?.removeFromSuperlayer()
+        progressLayer = nil
 
-            // Save the layer for later animation
-            indicator.layer.addSublayer(progressLayer)
-            progressLayers.append(progressLayer)
-        }
-        
-        // Set paths after layout is complete
-        for (index, progressLayer) in progressLayers.enumerated() {
-            guard index < indicators.count else { continue }
-            let indicator = indicators[index]
-            let path = UIBezierPath()
-            path.move(to: CGPoint(x: 0, y: indicator.frame.height / 2))
-            path.addLine(to: CGPoint(x: indicator.frame.width, y: indicator.frame.height / 2))
-            progressLayer.path = path.cgPath
-        }
+        // Create and add a new progress layer for the current indicator
+        let progressLayer = CAShapeLayer()
+        progressLayer.strokeColor = UIColor.white.cgColor
+        progressLayer.lineWidth = 4
+        progressLayer.lineCap = .round
+        progressLayer.fillColor = UIColor.clear.cgColor
+        progressLayer.strokeEnd = 0
+
+        // Define the path for the progress layer
+        let indicator = indicators[index]
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: indicator.frame.height / 2))
+        path.addLine(to: CGPoint(x: indicator.frame.width, y: indicator.frame.height / 2))
+        progressLayer.path = path.cgPath
+
+        // Add the new layer and store it
+        indicator.layer.addSublayer(progressLayer)
+        self.progressLayer = progressLayer
     }
 
     // Setup Constraints
@@ -195,7 +186,7 @@ class HuntGuideDetailView: UIView {
             indicator.backgroundColor = index < currentIndex ? .white : .darkGray
         }
         // Start animation for the current index indicator
-        if currentIndex < progressLayers.count {
+        if currentIndex < indicators.count {
             resetIndicators()
             currentIndicatorIndex = currentIndex
             animateCurrentIndicator()
@@ -205,10 +196,11 @@ class HuntGuideDetailView: UIView {
     // Animate the current indicator progress
     func animateCurrentIndicator() {
         NSLog("animateCurrentIndicator")
-        guard currentIndicatorIndex < progressLayers.count else { return }
-        let progressLayer = progressLayers[currentIndicatorIndex]
+
+        // Add the progress layer only for the current indicator
+        addIndicatorProgressLayer(for: currentIndicatorIndex)
         
-        NSLog("animateCurrentIndicator: \(progressLayer.frame)")
+        guard let progressLayer = progressLayer else { return }
 
         // Define the progress animation
         let animation = CABasicAnimation(keyPath: "strokeEnd")
@@ -217,7 +209,7 @@ class HuntGuideDetailView: UIView {
         animation.duration = animationDuration
         animation.fillMode = .forwards
         animation.isRemovedOnCompletion = false
-        
+
         progressLayer.strokeEnd = 1
         progressLayer.add(animation, forKey: "progressAnimation")
     }
@@ -225,8 +217,7 @@ class HuntGuideDetailView: UIView {
     // Pause animation
     func pauseAnimation() {
         NSLog("pauseAnimation")
-        guard currentIndicatorIndex < progressLayers.count else { return }
-        let layer = progressLayers[currentIndicatorIndex]
+        guard let layer = progressLayer else { return }
         let pausedTime = layer.convertTime(CACurrentMediaTime(), from: nil)
         layer.speed = 0.0
         layer.timeOffset = pausedTime
@@ -235,8 +226,7 @@ class HuntGuideDetailView: UIView {
     // Resume animation
     func resumeAnimation() {
         NSLog("resumeAnimation")
-        guard currentIndicatorIndex < progressLayers.count else { return }
-        let layer = progressLayers[currentIndicatorIndex]
+        guard let layer = progressLayer else { return }
         let pausedTime = layer.timeOffset
         layer.speed = 1.0
         layer.timeOffset = 0.0
@@ -248,12 +238,11 @@ class HuntGuideDetailView: UIView {
     // Reset all indicators
     func resetIndicators() {
         NSLog("resetIndicators")
-        for progressLayer in progressLayers {
-            progressLayer.removeAllAnimations()
-            progressLayer.strokeEnd = 0
-        }
+        progressLayer?.removeAllAnimations()
+        progressLayer?.removeFromSuperlayer()
+        progressLayer = nil
     }
-    
+
     // Advance to the next indicator
     func advanceToNextIndicator() {
         NSLog("advanceToNextIndicator")

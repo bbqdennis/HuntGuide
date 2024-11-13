@@ -53,6 +53,7 @@ class HuntGuideDetailViewController: UIViewController {
     // Setup Auto-Advance Timer
     private func startAutoAdvanceTimer() {
         autoAdvanceTimer = Timer.scheduledTimer(timeInterval: autoAdvanceInterval, target: self, selector: #selector(autoAdvance), userInfo: nil, repeats: true)
+        huntGuideDetailView.resumeAnimation()
     }
 
     private func stopAutoAdvanceTimer() {
