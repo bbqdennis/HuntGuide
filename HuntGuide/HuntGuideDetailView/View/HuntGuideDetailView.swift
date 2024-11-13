@@ -151,7 +151,7 @@ class HuntGuideDetailView: UIView {
     // Setup Constraints
     private func setupConstraints() {
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(verticalPadding)
+            make.top.equalTo(closeButton.snp.bottom).offset(0)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
