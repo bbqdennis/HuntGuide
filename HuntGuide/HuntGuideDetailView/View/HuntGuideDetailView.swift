@@ -75,6 +75,13 @@ class HuntGuideDetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // Now frames and bounds are guaranteed to be set
+        NSLog("layoutSubviews")
+        addIndicatorProgressLayers()
+    }
 
     // Setup View
     private func setupView() {
@@ -101,18 +108,6 @@ class HuntGuideDetailView: UIView {
             indicator.layer.cornerRadius = 2
             indicators.append(indicator)
             indicatorContainer.addArrangedSubview(indicator)
-            
-            // Add progress layer to each indicator
-            let progressLayer = CAShapeLayer()
-            progressLayer.strokeColor = UIColor.white.cgColor
-            progressLayer.lineWidth = 4 // Set the height of the progress line
-            progressLayer.lineCap = .round
-            progressLayer.fillColor = UIColor.clear.cgColor
-            progressLayer.strokeEnd = 0 // Start the stroke at zero
-
-            // Save the layer for later animation
-            indicator.layer.addSublayer(progressLayer)
-            progressLayers.append(progressLayer)
         }
 
         // Constraints for close button
@@ -130,8 +125,23 @@ class HuntGuideDetailView: UIView {
             make.height.equalTo(4)
         }
         
-        // Force layout to make sure frames are updated
-        layoutIfNeeded()
+        
+    }
+    
+    private func addIndicatorProgressLayers() {
+        for (index, indicator) in indicators.enumerated() {
+            // Add progress layer to each indicator
+            let progressLayer = CAShapeLayer()
+            progressLayer.strokeColor = UIColor.white.cgColor
+            progressLayer.lineWidth = 4 // Set the height of the progress line
+            progressLayer.lineCap = .round
+            progressLayer.fillColor = UIColor.clear.cgColor
+            progressLayer.strokeEnd = 0 // Start the stroke at zero
+
+            // Save the layer for later animation
+            indicator.layer.addSublayer(progressLayer)
+            progressLayers.append(progressLayer)
+        }
         
         // Set paths after layout is complete
         for (index, progressLayer) in progressLayers.enumerated() {
@@ -197,6 +207,8 @@ class HuntGuideDetailView: UIView {
         NSLog("animateCurrentIndicator")
         guard currentIndicatorIndex < progressLayers.count else { return }
         let progressLayer = progressLayers[currentIndicatorIndex]
+        
+        NSLog("animateCurrentIndicator: \(progressLayer.frame)")
 
         // Define the progress animation
         let animation = CABasicAnimation(keyPath: "strokeEnd")
