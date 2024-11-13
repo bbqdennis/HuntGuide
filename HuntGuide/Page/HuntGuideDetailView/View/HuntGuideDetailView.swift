@@ -38,14 +38,14 @@ class HuntGuideDetailView: UIView {
     
     private let subjectLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        label.font = PlanetXFont.titleFont()
         label.textColor = .cyan
         return label
     }()
 
     private let topicLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.font = PlanetXFont.titleFont(size: 24)
         label.textColor = .white
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -54,7 +54,7 @@ class HuntGuideDetailView: UIView {
 
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = PlanetXFont.descriptionFont(size: 16)
         label.textColor = .white
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
