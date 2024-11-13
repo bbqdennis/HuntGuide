@@ -1,0 +1,68 @@
+[
+    {
+        "subject": "01 MAÎTRISEZ VOTRE ÉQUIPEMENT",
+        "topic": "CHOISISSEZ LA COMBINAISON D'ARMES PARFAITE",
+        "description": "Dans votre inventaire, vous pourrez sélectionner votre équipement en choisissant les deux armes sur lesquelles vous compterez pendant la chasse. Chaque arme a des atouts uniques, alors choisissez une combinaison qui correspond à votre style de jeu pour un impact maximal.",
+        "image": "guide_01.png"
+    },
+    {
+        "subject": "02 ÉLIXIR",
+        "topic": "VOTRE SOURCE D'ÉNERGIE ET LIGNE DE VIE",
+        "description": "Sur la Planète-X, tout ce que vous utilisez est alimenté par l'élixir, et vous commencez chaque chasse avec un réservoir plein. Cela signifie que vos armes, votre scanner, votre bouclier, tout ce qui a une source d'énergie en dépend. Puisque l'élixir est limité à chaque chasse, planifiez son utilisation avec soin pour tirer le meilleur parti de chaque action et maximiser vos chances de victoire.",
+        "image": "guide_02.png"
+    },
+    {
+        "subject": "03 STATIONS DE RECHARGE D'ÉLIXIR",
+        "topic": "FAITES LE PLEIN DE VOTRE RÉSERVOIR",
+        "description": "Pendant une chasse, des stations de recharge d'élixir sont situées sur la carte. Utilisez-les pour recharger vos réserves d'élixir si vous êtes à court. Attention cependant, d'autres joueurs chercheront également à faire le plein, ces lieux sont donc dangereux!",
+        "image": "guide_03.png"
+    },
+    {
+        "subject": "04 FLACONS D'ÉLIXIR",
+        "topic": "RECHARGE RAPIDE EN DÉPLACEMENT",
+        "description": "Vous pouvez emporter trois flacons d'élixir dans chaque chasse si vous en avez dans votre inventaire. Les flacons peuvent être achetés en magasin, volés à d'autres joueurs ou gagnés dans des boîtes à butin. Ils vous permettent de faire le plein d'élixir rapidement sans passer par une station de recharge. Parfaits pour des moments cruciaux comme les fusillades ou les scans de récompenses. Utilisez-les stratégiquement!",
+        "image": "guide_04.png"
+    },
+    {
+        "subject": "05 ACTIVATION DE VOTRE MINI-CARTE",
+        "topic": "TROUVER UNE CELLULE OMNI",
+        "description": "Pour débloquer votre mini-carte, vous devrez activer une cellule Omni située sur la Planète-X. Les cellules Omni projettent un faisceau bleu distinct vers le ciel, ce qui permet de les repérer. Une fois votre mini-carte activée, vous pourrez voir des informations clés telles que les autres joueurs portant des récompenses, l'emplacement des coffres trouvés, et comment trouver une sortie.",
+        "image": "guide_05.png"
+    },
+    {
+        "subject": "06 SCAN DES COFFRES",
+        "topic": "GAGNEZ DES RÉCOMPENSES",
+        "description": "Votre scanner vous permet de trouver les coffres cachés sur la Planète-X. Activez simplement votre scanner et commencez à explorer pour en trouver un. Si un coffre est découvert, vous serez alerté dès qu'il émerge du sol. Ouvrez ensuite le coffre et récupérez la récompense.",
+        "image": "guide_06.png"
+    },
+    {
+        "subject": "07 COFFRES JAUNES ET ROUGES",
+        "topic": "COFFRES COMMUNS ET RARES",
+        "description": "Votre scanner vous permet de trouver les coffres cachés sur la Planète-X. Activez simplement votre scanner et commencez à explorer pour en trouver un. Si un coffre est découvert, vous serez alerté dès qu'il émerge du sol. Ouvrez ensuite le coffre et récupérez la récompense.",
+        "image": "guide_07.png"
+    },
+    {
+        "subject": "08 EXTRAIRE UNE RÉCOMPENSE",
+        "topic": "DEVENEZ UN GAGNANT OFFICIEL",
+        "description": "Si vous trouvez une récompense, vous devrez l'extraire en utilisant une fusée d'extraction indiquée sur la mini-carte pour devenir un gagnant officiel.\n Les fusées d'extraction sont des zones dangereuses, car vous pouvez y croiser des campeurs cherchant à voler votre récompense.\nSi vous parvenez à atteindre la fusée, vous devrez saisir un code à 4 chiffres qui apparaîtra sur votre écran pour que l'extraction soit réussie.",
+        "image": "guide_08.png"
+    },
+    {
+        "subject": "09 UTILISATION DE VOTRE BOUCLIER",
+        "topic": "MAÎTRISEZ VOTRE DÉFENSE",
+        "description": "Activer votre bouclier vous protège des tirs ennemis en consommant de l'élixir. Cependant, ce bouclier peut être brisé s'il subit trop de dégâts. En cas de bris, un temps de recharge est nécessaire avant de pouvoir le réactiver. Gérez vos défenses avec précaution!",
+        "image": "guide_09.png"
+    },
+    {
+        "subject": "11 UTILISATION DE VOTRE DRONE",
+        "topic": "EXPLOREZ STRATÉGIQUEMENT",
+        "description": "Utilisez votre drone situé sous votre mini-carte pour vous aider à repérer les ennemis proches ou pour vérifier si des zones de la carte, comme la fusée d'extraction, sont sécurisées. Vous pouvez également l'utiliser pour verrouiller des joueurs ennemis, ce qui vous permet de les traquer ou de voir s'ils possèdent une récompense à tout moment. Comme cela consomme de l'élixir, utilisez-le stratégiquement pour maximiser votre avantage sans épuiser vos ressources.",
+        "image": "guide_11.png"
+    },
+    {
+        "subject": "12 INDICATEURS D'HOMME MARQUÉ",
+        "topic": "HOMME MARQUÉ : JAUNE & ROUGE",
+        "description": "Utilisez votre drone situé sous votre mini-carte pour vous aider à repérer les ennemis proches ou pour vérifier si des zones de la carte, comme la fusée d'extraction, sont sécurisées. Vous pouvez également l'utiliser pour verrouiller des joueurs ennemis, ce qui vous permet de les traquer ou de voir s'ils possèdent une récompense à tout moment. Comme cela consomme de l'élixir, utilisez-le stratégiquement pour maximiser votre avantage sans épuiser vos ressources.",
+        "image": "guide_12.png"
+    }
+]

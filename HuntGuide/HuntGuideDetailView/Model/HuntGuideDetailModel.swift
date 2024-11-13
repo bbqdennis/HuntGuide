@@ -40,22 +40,42 @@ extension HuntGuideDetailModel: Decodable {
     }
     
     static func loadFromBundle() -> [HuntGuideDetailModel]? {
-            // load from Bundle
-            guard let url = Bundle.main.url(forResource: "huntguide", withExtension: "json") else {
-                print("Could not find huntguide.json in bundle.")
-                return nil
-            }
-            
+        // Retrieve the device's current language code
+        let languageCode = Locale.current.languageCode ?? "en"
+        NSLog("Locale.current.languageCode \(Locale.current.languageCode)")
+        
+        // Attempt to load the language-specific JSON file, e.g., "huntguide_en.json"
+        let filename = "huntguide_\(languageCode)"
+        
+        // Attempt to find the localized JSON file first
+        if let url = Bundle.main.url(forResource: filename, withExtension: "json") {
             do {
-                // loading data
+                // Load and decode data from the localized JSON file
                 let data = try Data(contentsOf: url)
-                // use JSONDecoder decode
                 let decoder = JSONDecoder()
                 let models = try decoder.decode([HuntGuideDetailModel].self, from: data)
                 return models
             } catch {
-                print("Failed to decode JSON: \(error)")
-                return nil
+                print("Failed to decode localized JSON (\(filename).json): \(error)")
             }
         }
+
+        // Fallback to default "huntguide.json" if localized version is unavailable
+        if let url = Bundle.main.url(forResource: "huntguide", withExtension: "json") {
+            do {
+                // Load and decode data from the default JSON file
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                let models = try decoder.decode([HuntGuideDetailModel].self, from: data)
+                return models
+            } catch {
+                print("Failed to decode default JSON (huntguide.json): \(error)")
+            }
+        }
+
+        // Return nil if both attempts failed
+        print("Could not find or decode any JSON file.")
+        return nil
+    }
 }
+

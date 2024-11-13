@@ -1,0 +1,68 @@
+[
+    {
+        "subject": "01 MASTER YOUR LOADOUT",
+        "topic": "CHOOSE THE PERFECT WEAPON COMBO",
+        "description": "In your inventory you will be able to select your loadout by picking the two weapons you’ll rely on during the hunt. Each gun has unique strengths, so choose a combo that best matches your play style for maximum impact.",
+        "image": "guide_01.png"
+    },
+    {
+        "subject": "02 ELIXIR",
+        "topic": "YOUR ENERGY SOURCE AND LIFELINE",
+        "description": "On Planet-X, everything you use is powered by elixir and you start each hunt with a full tank. This means your weapons, your scanner, your shield, anything with a power source relies on it.\nSince elixir is limited in each hunt, plan your usage carefully to get the most out of every action, giving yourself the best possible chance to win.",
+        "image": "guide_02.png"
+    },
+    {
+        "subject": "03 ELIXIR REFILL STATIONS",
+        "topic": "TOP UP YOUR TANK",
+        "description": "During a hunt, elixir refill stations are situated around the map. Use these to top up your elixir stores if you’re running low. However beware, other players will be looking to do the same thing so these are dangerous spots to visit!",
+        "image": "guide_03.png"
+    },
+    {
+        "subject": "04 ELIXIR VIALS",
+        "topic": "QUICK REFILL ON THE MOVE",
+        "description": "You'll have the ability to take three elixir vials into each hunt if you have them in your inventory.  Vials can be bought in the store, stolen of other players or won in loot boxes. These allow you to quickly top up your elixir without having to go to a refill station. Perfect lifesavers for high-stakes moments like shootouts or prize scans. Use them strategically!",
+        "image": "guide_04.png"
+    },
+    {
+        "subject": "05 ACTIVATING YOUR MINIMAP",
+        "topic": "FIND AN OMNI CELL",
+        "description": "To unlock your mini-map you will have to Activate a Omni Cell situated on Planet-X. Omni cells shoot a distinct blue beam into the sky, which can be seen to try and locate them. Once your mini-map is activated you will be able to see key information such as other players carrying prizes, where chests have been found, how to find an extr",
+        "image": "guide_05.png"
+    },
+    {
+        "subject": "06 SCANNING FOR CHESTS",
+        "topic": "WIN PRIZES",
+        "description": "Your scanner allows you to find the hidden chests on Planet-X. Simply turn on your scanner and start running around to try and find one. If you find a chest you will be alerted as it pops out the ground. Then open the chest and pick up the prize.",
+        "image": "guide_06.png"
+    },
+    {
+        "subject": "07 YELLOW AND RED CHESTS",
+        "topic": "COMMON AND RARE CHESTS",
+        "description": "Your scanner allows you to find the hidden chests on Planet-X. Simply turn on your scanner and start running around to try and find one. If you find a chest you will be alerted as it pops out the ground. Then open the chest and pick up the prize.",
+        "image": "guide_07.png"
+    },
+    {
+        "subject": "08 EXTRACT A PRIZE",
+        "topic": "BECOME AN OFFICIAL WINNER",
+        "description": "If you happen to find a prize; you will need to extract it using an extraction rocket found on the mini-map to become an official winner.\n Extraction rockets are dangerous areas as you could come across campers trying to steal your prize.\nIf you manage to successfully make it to the rocket, you will then need to input a 4 digit code which will appear on your screen for the extraction to be successful.",
+        "image": "guide_08.png"
+    },
+    {
+        "subject": "09 USING YOUR SHIELD",
+        "topic": "MASTER YOUR DEFENCE",
+        "description": "Turning on your shield protects you from incoming fire whilst using elixir. This shield however can be broken if it takes too much damage. If it does get broken, you’ll face a brief cooldown before being able to reactivate it, so time your defenses carefully!",
+        "image": "guide_09.png"
+    },
+    {
+        "subject": "11 USING YOUR DRONE",
+        "topic": "SCOUT AHEAD TACTICALLY",
+        "description": "Use your drone situated under your mini-map to help you scout for nearby enemies or ensures areas of the map are clear, such as the extraction rocket. You can also use it to lock on to enemy players, which then gives you the ability to hunt them down or see if they’re holding a prize at anytime. Since it consumes elixir, use it strategically to maximize your advantage without depleting your resources.",
+        "image": "guide_11.png"
+    },
+    {
+        "subject": "12 MARKED MAN INDICATORS",
+        "topic": "MARKED MAN: YELLOW & RED",
+        "description": "Use your drone situated under your mini-map to help you scout for nearby enemies or ensures areas of the map are clear, such as the extraction rocket. You can also use it to lock on to enemy players, which then gives you the ability to hunt them down or see if they’re holding a prize at anytime. Since it consumes elixir, use it strategically to maximize your advantage without depleting your resources.",
+        "image": "guide_12.png"
+    }
+]
