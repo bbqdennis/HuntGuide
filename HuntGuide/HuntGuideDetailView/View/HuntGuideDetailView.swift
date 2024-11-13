@@ -14,7 +14,7 @@ class HuntGuideDetailView: UIView {
     private let closeButtonTopPadding: CGFloat = -6
     private let verticalPadding: CGFloat = 16
     private let horizontalPadding: CGFloat = 16
-    private let imageVerticalOffset: CGFloat = 32
+    private let imageVerticalOffset: CGFloat = 16
     private let imageHorizontalInset: CGFloat = 32
     
     // Indicator
@@ -31,6 +31,10 @@ class HuntGuideDetailView: UIView {
         button.contentMode = .scaleAspectFit
         return button
     }()
+    
+    // ScrollView and Content Container
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     
     private let subjectLabel: UILabel = {
         let label = UILabel()
@@ -79,10 +83,14 @@ class HuntGuideDetailView: UIView {
     // Setup View
     private func setupView() {
         addSubview(closeButton)
-        addSubview(subjectLabel)
-        addSubview(topicLabel)
-        addSubview(descriptionLabel)
-        addSubview(weaponImageView)
+        addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(subjectLabel)
+        contentView.addSubview(topicLabel)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(weaponImageView)
+        
         addProgressIndicator()
     }
     
@@ -119,13 +127,10 @@ class HuntGuideDetailView: UIView {
         }
     }
     
-    // Add a progress layer to the current indicator only
     private func addIndicatorProgressLayer(for index: Int) {
-        // Remove any existing progress layer
         progressLayer?.removeFromSuperlayer()
         progressLayer = nil
 
-        // Create and add a new progress layer for the current indicator
         let progressLayer = CAShapeLayer()
         progressLayer.strokeColor = UIColor.white.cgColor
         progressLayer.lineWidth = 4
@@ -133,42 +138,50 @@ class HuntGuideDetailView: UIView {
         progressLayer.fillColor = UIColor.clear.cgColor
         progressLayer.strokeEnd = 0
 
-        // Define the path for the progress layer
         let indicator = indicators[index]
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0, y: indicator.frame.height / 2))
         path.addLine(to: CGPoint(x: indicator.frame.width, y: indicator.frame.height / 2))
         progressLayer.path = path.cgPath
 
-        // Add the new layer and store it
         indicator.layer.addSublayer(progressLayer)
         self.progressLayer = progressLayer
     }
 
     // Setup Constraints
     private func setupConstraints() {
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(closeButton.snp.bottom).offset(verticalPadding)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView)
+            make.width.equalTo(scrollView)
+        }
+
         subjectLabel.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(verticalPadding * 2)
-            make.leading.equalToSuperview().offset(horizontalPadding)
+            make.top.equalTo(contentView).offset(verticalPadding)
+            make.leading.equalTo(contentView).offset(horizontalPadding)
         }
 
         topicLabel.snp.makeConstraints { make in
             make.top.equalTo(subjectLabel.snp.bottom).offset(verticalPadding)
             make.leading.equalTo(subjectLabel)
-            make.width.lessThanOrEqualToSuperview().offset(-horizontalPadding * 2)
+            make.trailing.equalTo(contentView).offset(-horizontalPadding)
         }
 
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(topicLabel.snp.bottom).offset(verticalPadding)
             make.leading.equalTo(topicLabel)
-            make.trailing.equalToSuperview().offset(-horizontalPadding)
+            make.trailing.equalTo(contentView).offset(-horizontalPadding)
         }
 
         weaponImageView.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(imageVerticalOffset)
-            make.centerX.equalToSuperview()
-            make.width.lessThanOrEqualToSuperview().offset(-imageHorizontalInset)
-            make.bottom.lessThanOrEqualTo(safeAreaLayoutGuide).offset(-verticalPadding)
+            make.centerX.equalTo(contentView)
+            make.width.lessThanOrEqualTo(contentView).offset(-imageHorizontalInset)
+            make.bottom.equalTo(contentView).offset(-verticalPadding)
         }
     }
 
@@ -185,7 +198,6 @@ class HuntGuideDetailView: UIView {
         for (index, indicator) in indicators.enumerated() {
             indicator.backgroundColor = index < currentIndex ? .white : .darkGray
         }
-        // Start animation for the current index indicator
         if currentIndex < indicators.count {
             resetIndicators()
             currentIndicatorIndex = currentIndex
@@ -193,16 +205,11 @@ class HuntGuideDetailView: UIView {
         }
     }
     
-    // Animate the current indicator progress
     func animateCurrentIndicator() {
-        NSLog("animateCurrentIndicator")
-
-        // Add the progress layer only for the current indicator
         addIndicatorProgressLayer(for: currentIndicatorIndex)
         
         guard let progressLayer = progressLayer else { return }
 
-        // Define the progress animation
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
@@ -214,18 +221,14 @@ class HuntGuideDetailView: UIView {
         progressLayer.add(animation, forKey: "progressAnimation")
     }
 
-    // Pause animation
     func pauseAnimation() {
-        NSLog("pauseAnimation")
         guard let layer = progressLayer else { return }
         let pausedTime = layer.convertTime(CACurrentMediaTime(), from: nil)
         layer.speed = 0.0
         layer.timeOffset = pausedTime
     }
 
-    // Resume animation
     func resumeAnimation() {
-        NSLog("resumeAnimation")
         guard let layer = progressLayer else { return }
         let pausedTime = layer.timeOffset
         layer.speed = 1.0
@@ -235,22 +238,17 @@ class HuntGuideDetailView: UIView {
         layer.beginTime = timeSincePause
     }
     
-    // Reset all indicators
     func resetIndicators() {
-        NSLog("resetIndicators")
         progressLayer?.removeAllAnimations()
         progressLayer?.removeFromSuperlayer()
         progressLayer = nil
     }
 
-    // Advance to the next indicator
     func advanceToNextIndicator() {
-        NSLog("advanceToNextIndicator")
         currentIndicatorIndex = (currentIndicatorIndex + 1) % steps
         animateCurrentIndicator()
     }
 
-    // Expose closeButton for adding action in the view controller
     func addCloseButtonTarget(target: Any?, action: Selector) {
         closeButton.addTarget(target, action: action, for: .touchUpInside)
     }
