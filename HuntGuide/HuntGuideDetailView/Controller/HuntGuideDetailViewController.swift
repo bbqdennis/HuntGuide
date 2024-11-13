@@ -131,6 +131,11 @@ class HuntGuideDetailViewController: UIViewController {
         setupModel()
         setupView()
         setupGesture()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // for make sure the huntGuideDetailView frame is okay
         loadCurrentModel()
         startAutoAdvanceTimer()
     }
