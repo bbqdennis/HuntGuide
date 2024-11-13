@@ -71,6 +71,7 @@ class HuntGuideView: UIView {
         setupView()
         setupConstraints()
         backgroundColor = .black
+        setupButtonAnimation()
     }
     
     required init?(coder: NSCoder) {
@@ -118,6 +119,24 @@ class HuntGuideView: UIView {
         buttonAction.snp.makeConstraints { make in
             make.edges.equalTo(containerView)
         }
+    }
+    
+    // Setup Button Animation
+    private func setupButtonAnimation() {
+        buttonAction.addTarget(self, action: #selector(buttonPressed), for: .touchDown)
+        buttonAction.addTarget(self, action: #selector(buttonReleased), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+    }
+    
+    @objc private func buttonPressed() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.containerView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+        })
+    }
+    
+    @objc private func buttonReleased() {
+        UIView.animate(withDuration: 0.1, animations: {
+            self.containerView.transform = CGAffineTransform.identity
+        })
     }
     
     // Function Call
