@@ -158,6 +158,7 @@ class HuntGuideDetailView: UIView {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView)
             make.width.equalTo(scrollView)
+            make.height.greaterThanOrEqualTo(scrollView.snp.height) // set to the at least scrollView height
         }
 
         subjectLabel.snp.makeConstraints { make in

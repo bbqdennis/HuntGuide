@@ -18,3 +18,4 @@ TO DO
 Tested Device
 1. iPhone16 Pro
 2. iPhoneSE
+3. iPhone16 Pro Max
