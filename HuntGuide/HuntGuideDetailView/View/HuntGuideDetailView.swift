@@ -16,6 +16,10 @@ class HuntGuideDetailView: UIView {
     private let imageVerticalOffset: CGFloat = 32
     private let imageHorizontalInset: CGFloat = 32
     
+    // Indicator
+    private var steps: Int
+    private var indicators: [UIView] = []
+
     // UI Elements
     private let subjectLabel: UILabel = {
         let label = UILabel()
@@ -49,7 +53,8 @@ class HuntGuideDetailView: UIView {
     }()
 
     // Init
-    override init(frame: CGRect) {
+    init(frame: CGRect = .zero, steps: Int) {
+        self.steps = steps
         super.init(frame: frame)
         setupView()
         setupConstraints()
@@ -62,16 +67,42 @@ class HuntGuideDetailView: UIView {
 
     // Setup View
     private func setupView() {
+        addProgressIndicator()
         addSubview(subjectLabel)
         addSubview(topicLabel)
         addSubview(descriptionLabel)
         addSubview(weaponImageView)
     }
+    
+    // Add progress indicator views
+    private func addProgressIndicator() {
+        let indicatorContainer = UIStackView()
+        indicatorContainer.axis = .horizontal
+        indicatorContainer.alignment = .fill
+        indicatorContainer.distribution = .fillEqually
+        indicatorContainer.spacing = 4
+        addSubview(indicatorContainer)
+
+        for _ in 0..<steps {
+            let indicator = UIView()
+            indicator.backgroundColor = .darkGray
+            indicator.layer.cornerRadius = 2
+            indicators.append(indicator)
+            indicatorContainer.addArrangedSubview(indicator)
+        }
+
+        indicatorContainer.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).offset(verticalPadding)
+            make.leading.equalToSuperview().offset(horizontalPadding)
+            make.trailing.equalToSuperview().offset(-horizontalPadding)
+            make.height.equalTo(4)
+        }
+    }
 
     // Setup Constraints
     private func setupConstraints() {
         subjectLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(verticalPadding)
+            make.top.equalTo(safeAreaLayoutGuide).offset(verticalPadding * 2)
             make.leading.equalToSuperview().offset(horizontalPadding)
         }
 
@@ -101,5 +132,12 @@ class HuntGuideDetailView: UIView {
         topicLabel.text = model.topic
         descriptionLabel.text = model.description
         weaponImageView.image = UIImage(named: model.image)
+    }
+
+    // Update the progress indicator based on the current index
+    func updateIndicator(currentIndex: Int) {
+        for (index, indicator) in indicators.enumerated() {
+            indicator.backgroundColor = index <= currentIndex ? .white : .darkGray
+        }
     }
 }
