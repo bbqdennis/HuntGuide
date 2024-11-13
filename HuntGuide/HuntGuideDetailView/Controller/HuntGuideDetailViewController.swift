@@ -10,23 +10,24 @@ import UIKit
 class HuntGuideDetailViewController: UIViewController {
 
     private var models: [HuntGuideDetailModel] = []
-    private var huntGuideDetailView: HuntGuideDetailView! // Lazy initialization
+    private var huntGuideDetailView: HuntGuideDetailView! // 延遲初始化
     private var currentIndex = 0
     
     // Setup Init
     private func setupModel() {
         if let loadedModels = HuntGuideDetailModel.loadFromBundle() {
             models = loadedModels
-            
-            // Initialize huntGuideDetailView after loading models
-            huntGuideDetailView = HuntGuideDetailView(steps: models.count)
-            self.view = huntGuideDetailView // Set view
-            
-            loadCurrentModel()
-            setupGesture() // Initialize gestures
         } else {
             print("Failed to load models from JSON.")
         }
+    }
+    
+    private func setupView() {
+        // Initialize huntGuideDetailView after loading models
+        huntGuideDetailView = HuntGuideDetailView(steps: models.count)
+        // Additional setup if needed
+        huntGuideDetailView.addCloseButtonTarget(target: self, action: #selector(handleCloseButtonTap))
+        self.view = huntGuideDetailView // 設置 view
     }
     
     private func setupGesture() {
@@ -44,7 +45,7 @@ class HuntGuideDetailViewController: UIViewController {
         huntGuideDetailView.addGestureRecognizer(swipeRightGesture)
     }
 
-    // Load the current model into the view
+    // Common
     private func loadCurrentModel() {
         if currentIndex < models.count {
             let model = models[currentIndex]
@@ -54,6 +55,11 @@ class HuntGuideDetailViewController: UIViewController {
     }
 
     // Actions
+    @objc private func handleCloseButtonTap() {
+        // Handle close action, for example, dismiss the view controller
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @objc private func handleTap() {
         // Increment the index to load the next model
         currentIndex = (currentIndex + 1) % models.count
@@ -73,11 +79,14 @@ class HuntGuideDetailViewController: UIViewController {
     
     // View Cycle
     override func loadView() {
-        // Do nothing here because `huntGuideDetailView` will be set in `setupModel`
+        // Do nothing here because `huntGuideDetailView` will be set after `setupModel`
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupModel() // Load models and initialize the view
+        setupModel() // 加載模型並初始化視圖
+        setupView()
+        setupGesture() // 初始化手勢
+        loadCurrentModel()
     }
 }

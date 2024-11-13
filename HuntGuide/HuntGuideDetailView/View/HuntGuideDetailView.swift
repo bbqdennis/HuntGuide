@@ -11,6 +11,7 @@ import SnapKit
 class HuntGuideDetailView: UIView {
 
     // Define padding constants
+    private let closeButtonTopPadding: CGFloat = -6
     private let verticalPadding: CGFloat = 16
     private let horizontalPadding: CGFloat = 16
     private let imageVerticalOffset: CGFloat = 32
@@ -21,6 +22,13 @@ class HuntGuideDetailView: UIView {
     private var indicators: [UIView] = []
 
     // UI Elements
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "close_button"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        return button
+    }()
+    
     private let subjectLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -67,11 +75,12 @@ class HuntGuideDetailView: UIView {
 
     // Setup View
     private func setupView() {
-        addProgressIndicator()
+        addSubview(closeButton)
         addSubview(subjectLabel)
         addSubview(topicLabel)
         addSubview(descriptionLabel)
         addSubview(weaponImageView)
+        addProgressIndicator()
     }
     
     // Add progress indicator views
@@ -91,9 +100,17 @@ class HuntGuideDetailView: UIView {
             indicatorContainer.addArrangedSubview(indicator)
         }
 
+        // Constraints for close button
+        closeButton.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).offset(closeButtonTopPadding)
+            make.leading.equalToSuperview().offset(0)
+            make.width.height.equalTo(50) // Set size for close button
+        }
+
+        // Constraints for indicator container
         indicatorContainer.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(verticalPadding)
-            make.leading.equalToSuperview().offset(horizontalPadding)
+            make.leading.equalTo(closeButton.snp.trailing).offset(0) // just follow the close button
             make.trailing.equalToSuperview().offset(-horizontalPadding)
             make.height.equalTo(4)
         }
@@ -102,7 +119,7 @@ class HuntGuideDetailView: UIView {
     // Setup Constraints
     private func setupConstraints() {
         subjectLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(verticalPadding * 2)
+            make.top.equalTo(closeButton.snp.bottom).offset(verticalPadding * 2)
             make.leading.equalToSuperview().offset(horizontalPadding)
         }
 
@@ -139,5 +156,10 @@ class HuntGuideDetailView: UIView {
         for (index, indicator) in indicators.enumerated() {
             indicator.backgroundColor = index <= currentIndex ? .white : .darkGray
         }
+    }
+    
+    // Expose closeButton for adding action in the view controller
+    func addCloseButtonTarget(target: Any?, action: Selector) {
+        closeButton.addTarget(target, action: action, for: .touchUpInside)
     }
 }

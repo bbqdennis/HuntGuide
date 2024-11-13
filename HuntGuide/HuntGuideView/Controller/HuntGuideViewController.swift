@@ -21,22 +21,21 @@ class HuntGuideViewController: UIViewController {
         super.viewDidLoad()
         
         // Additional setup if needed
-        huntGuideView.configureButtonAction { [weak self] in
-            self?.handleButtonTap()
-        }
+        huntGuideView.addButtonTarget(target: self, action: #selector(handleButtonTap))
     }
     
     // Navigation
-    private func pushToHuntGuideDetailViewController() {
-        NSLog("pushToHuntGuideDetailViewController")
+    private func presentHuntGuideDetailViewController() {
+        NSLog("presentHuntGuideDetailViewController")
         let huntGuideDetailVC = HuntGuideDetailViewController()
-        navigationController?.pushViewController(huntGuideDetailVC, animated: true)
+        huntGuideDetailVC.modalPresentationStyle = .fullScreen // Optional: Present full screen
+        present(huntGuideDetailVC, animated: true, completion: nil)
     }
     
     // Action
-    private func handleButtonTap() {
+    @objc private func handleButtonTap() {
         // Handle button tap action
         print("Hunt Guide button tapped")
-        pushToHuntGuideDetailViewController()
+        presentHuntGuideDetailViewController()
     }
 }

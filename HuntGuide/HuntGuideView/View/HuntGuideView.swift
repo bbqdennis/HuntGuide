@@ -60,7 +60,6 @@ class HuntGuideView: UIView {
     
     private let buttonAction: UIButton = {
         let button = UIButton()
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -122,11 +121,8 @@ class HuntGuideView: UIView {
     }
     
     // Function Call
-    func configureButtonAction(callback: @escaping () -> Void) {
-        buttonCallback = callback
-    }
-    
-    @objc private func buttonTapped() {
-        buttonCallback?()
+    // Expose button for adding action in the view controller
+    func addButtonTarget(target: Any?, action: Selector) {
+        buttonAction.addTarget(target, action: action, for: .touchUpInside)
     }
 }
