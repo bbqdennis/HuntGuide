@@ -44,7 +44,7 @@ class HuntGuideView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "HUNT GUIDE"
+        label.text = String(localized: "HuntGuideView_titleLabel")
         label.font = UIFont.boldSystemFont(ofSize: 14)  // Set to bold font
         label.textColor = .white
         return label
@@ -52,7 +52,7 @@ class HuntGuideView: UIView {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Tips and tricks to get you started"
+        label.text = String(localized: "HuntGuideView_subtitleLabel")
         label.font = UIFont.systemFont(ofSize: 11)
         label.textColor = UIColor.white
         return label
