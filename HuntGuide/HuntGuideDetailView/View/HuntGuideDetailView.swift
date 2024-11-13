@@ -20,6 +20,9 @@ class HuntGuideDetailView: UIView {
     // Indicator
     private var steps: Int
     private var indicators: [UIView] = []
+    private var progressLayers: [CAShapeLayer] = []
+    private var currentIndicatorIndex = 0
+    private var animationDuration: TimeInterval = 10
 
     // UI Elements
     private let closeButton: UIButton = {
@@ -83,7 +86,7 @@ class HuntGuideDetailView: UIView {
         addProgressIndicator()
     }
     
-    // Add progress indicator views
+    // Add progress indicator views with animated progress layers
     private func addProgressIndicator() {
         let indicatorContainer = UIStackView()
         indicatorContainer.axis = .horizontal
@@ -98,21 +101,46 @@ class HuntGuideDetailView: UIView {
             indicator.layer.cornerRadius = 2
             indicators.append(indicator)
             indicatorContainer.addArrangedSubview(indicator)
+            
+            // Add progress layer to each indicator
+            let progressLayer = CAShapeLayer()
+            progressLayer.strokeColor = UIColor.white.cgColor
+            progressLayer.lineWidth = 4 // Set the height of the progress line
+            progressLayer.lineCap = .round
+            progressLayer.fillColor = UIColor.clear.cgColor
+            progressLayer.strokeEnd = 0 // Start the stroke at zero
+
+            // Save the layer for later animation
+            indicator.layer.addSublayer(progressLayer)
+            progressLayers.append(progressLayer)
         }
 
         // Constraints for close button
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(closeButtonTopPadding)
             make.leading.equalToSuperview().offset(0)
-            make.width.height.equalTo(50) // Set size for close button
+            make.width.height.equalTo(50)
         }
 
         // Constraints for indicator container
         indicatorContainer.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(verticalPadding)
-            make.leading.equalTo(closeButton.snp.trailing).offset(0) // just follow the close button
+            make.leading.equalTo(closeButton.snp.trailing).offset(0)
             make.trailing.equalToSuperview().offset(-horizontalPadding)
             make.height.equalTo(4)
+        }
+        
+        // Force layout to make sure frames are updated
+        layoutIfNeeded()
+        
+        // Set paths after layout is complete
+        for (index, progressLayer) in progressLayers.enumerated() {
+            guard index < indicators.count else { continue }
+            let indicator = indicators[index]
+            let path = UIBezierPath()
+            path.move(to: CGPoint(x: 0, y: indicator.frame.height / 2))
+            path.addLine(to: CGPoint(x: indicator.frame.width, y: indicator.frame.height / 2))
+            progressLayer.path = path.cgPath
         }
     }
 
@@ -154,10 +182,73 @@ class HuntGuideDetailView: UIView {
     // Update the progress indicator based on the current index
     func updateIndicator(currentIndex: Int) {
         for (index, indicator) in indicators.enumerated() {
-            indicator.backgroundColor = index <= currentIndex ? .white : .darkGray
+            indicator.backgroundColor = index < currentIndex ? .white : .darkGray
+        }
+        // Start animation for the current index indicator
+        if currentIndex < progressLayers.count {
+            resetIndicators()
+            currentIndicatorIndex = currentIndex
+            animateCurrentIndicator()
         }
     }
     
+    // Animate the current indicator progress
+    func animateCurrentIndicator() {
+        NSLog("animateCurrentIndicator")
+        guard currentIndicatorIndex < progressLayers.count else { return }
+        let progressLayer = progressLayers[currentIndicatorIndex]
+
+        // Define the progress animation
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = animationDuration
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
+        
+        progressLayer.strokeEnd = 1
+        progressLayer.add(animation, forKey: "progressAnimation")
+    }
+
+    // Pause animation
+    func pauseAnimation() {
+        NSLog("pauseAnimation")
+        guard currentIndicatorIndex < progressLayers.count else { return }
+        let layer = progressLayers[currentIndicatorIndex]
+        let pausedTime = layer.convertTime(CACurrentMediaTime(), from: nil)
+        layer.speed = 0.0
+        layer.timeOffset = pausedTime
+    }
+
+    // Resume animation
+    func resumeAnimation() {
+        NSLog("resumeAnimation")
+        guard currentIndicatorIndex < progressLayers.count else { return }
+        let layer = progressLayers[currentIndicatorIndex]
+        let pausedTime = layer.timeOffset
+        layer.speed = 1.0
+        layer.timeOffset = 0.0
+        layer.beginTime = 0.0
+        let timeSincePause = layer.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
+        layer.beginTime = timeSincePause
+    }
+    
+    // Reset all indicators
+    func resetIndicators() {
+        NSLog("resetIndicators")
+        for progressLayer in progressLayers {
+            progressLayer.removeAllAnimations()
+            progressLayer.strokeEnd = 0
+        }
+    }
+    
+    // Advance to the next indicator
+    func advanceToNextIndicator() {
+        NSLog("advanceToNextIndicator")
+        currentIndicatorIndex = (currentIndicatorIndex + 1) % steps
+        animateCurrentIndicator()
+    }
+
     // Expose closeButton for adding action in the view controller
     func addCloseButtonTarget(target: Any?, action: Selector) {
         closeButton.addTarget(target, action: action, for: .touchUpInside)
