@@ -10,7 +10,7 @@ import UIKit
 class HuntGuideDetailViewController: UIViewController {
 
     private var models: [HuntGuideDetailModel] = []
-    private var huntGuideDetailView: HuntGuideDetailView! // 延遲初始化
+    private var huntGuideDetailView: HuntGuideDetailView! // Delay to load since we need the model count for setup the indicator in HuntGuideDetailView
     private var currentIndex = 0
     
     // Setup Init
@@ -27,7 +27,7 @@ class HuntGuideDetailViewController: UIViewController {
         huntGuideDetailView = HuntGuideDetailView(steps: models.count)
         // Additional setup if needed
         huntGuideDetailView.addCloseButtonTarget(target: self, action: #selector(handleCloseButtonTap))
-        self.view = huntGuideDetailView // 設置 view
+        self.view = huntGuideDetailView // set self.view
     }
     
     private func setupGesture() {
@@ -84,9 +84,9 @@ class HuntGuideDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupModel() // 加載模型並初始化視圖
+        setupModel() // load the model
         setupView()
-        setupGesture() // 初始化手勢
+        setupGesture()
         loadCurrentModel()
     }
 }
